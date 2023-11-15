@@ -46,13 +46,14 @@ int search_command(char *args[], char **env)
 void excute(char *args[], char **env, char **argv)
 {
 	pid_t child;
-	int status, temp;
+	int status, temp, flag = 0;
 	struct stat st;
 
 	temp = stat(args[0], &st);
 	if (temp != 0)
 	{
 		temp = search_command(args, env);
+		flag = 1;
 	}
 	if (temp != 0)
 	{
@@ -65,7 +66,8 @@ void excute(char *args[], char **env, char **argv)
 		if (child != 0)
 		{
 			wait(&status);
-			/*free(args[0])*/
+			if (flag)
+				free(args[0]);
 			return;
 		}
 		execve(args[0], args, env);
