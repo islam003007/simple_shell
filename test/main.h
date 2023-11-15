@@ -22,7 +22,7 @@ void print_env(char **env);
 ssize_t interface(char **buf);
 void parser(char *args[], char *buf);
 char *_strcat(char *dest, char *src);
-int excute(char *args[], char **env, char **argv);
+void excute(char *args[], char **env, char **argv);
 
 
 

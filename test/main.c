@@ -1,29 +1,5 @@
 #include "main.h"
 
-int search_command(char *args[], char **env)
-{
-	char *temp = NULL, *token = NULL, *path = _getenv("PATH", env);
-	struct stat st;
-
-	token = strtok(path, ":");
-	temp = str_concat(token, args[0]);
-	while (stat(temp, &st) != 0)
-	{
-		free(temp);
-		token = strtok(NULL, ":");
-		if (token == NULL)
-		{
-			free(path);
-			return (0);
-		}
-		temp = str_concat(token, args[0]);
-	}
-
-	args[0] = temp;
-	free(path);
-	return (1);
-}
-
 /**
  * excute - excutes command.
  *
@@ -34,25 +10,48 @@ int search_command(char *args[], char **env)
  * Return: 0 on success, -1 on failure.
 */
 
-int excute(char *args[], char **env, char **argv)
+void excute(char *args[], char **env, char **argv)
 {
 	pid_t child;
-	int status;
+	int status, found_flag = 1;
 	struct stat st;
+	char *temp = args[0], *token = NULL, *path = _getenv("PATH", env);
 
-	child = fork();
-	if (child != 0)
-		wait(&status);
+	if ((stat(args[0], &st) != 0))
+	{
+		token = strtok(path, ":");
+		temp = str_concat(token, args[0]);
+		while (stat(temp, &st) != 0)
+		{
+			free(temp);
+			token = strtok(NULL, ":");
+			if (token == NULL)
+			{
+				found_flag = 0;
+				break;
+			}
+			temp = str_concat(token, args[0]);
+		}
+	}
+	if (!found_flag)
+	{
+		printf("%s: No such file or directory\n", argv[0]);
+		free(path);
+		return;
+	}
 	else
 	{
-		if (stat(args[0], &st) == 0)
-			execve(args[0], args, env);
-		else
-			printf("%s: No such file or directory\n", argv[0]);
-		return (-1);
+		args[0] = temp;
+		child = fork();
+		if (child != 0)
+		{
+			wait(&status);
+			free(temp);
+			free(path);
+			return;
+		}
+		execve(args[0], args, env);
 	}
-
-	return (0);
 }
 
 
