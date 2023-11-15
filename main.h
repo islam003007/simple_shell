@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <signal.h>
+
 #define MAX_ARG 128
 
 
@@ -23,7 +25,7 @@ ssize_t interface(char **buf, int *line);
 void parser(char *args[], char *buf);
 char *_strcat(char *dest, char *src);
 void excute(char *args[], char **env, char **argv, int *line);
-
+void INThandler(int, char *);
 
 
 

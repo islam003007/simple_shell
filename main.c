@@ -139,6 +139,7 @@ ssize_t interface(char **buf, int *line)
  * Return: 0
 */
 
+
 int main(int argc, char **argv, char **env)
 {
 	char *buf = NULL;
@@ -146,6 +147,7 @@ int main(int argc, char **argv, char **env)
 	int temp;
 	int line = 0;
 
+	signal(SIGINT, void (*)(int,  char *)NThandler);
 	while (1)
 	{
 		temp = interface(&buf, &line);
