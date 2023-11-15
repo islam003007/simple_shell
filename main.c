@@ -22,14 +22,14 @@ int search_command(char *args[], char **env)
 		token = strtok(NULL, ":");
 		if (token == NULL)
 		{
-			 /*free(bath)*/
+			free(path);
 			return (-1);
 		}
 		temp = str_concat(token, args[0]);
 	}
 
 	args[0] = temp;
-	/*free(bath)*/
+	free(path);
 	return (0);
 }
 
