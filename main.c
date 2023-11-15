@@ -39,11 +39,12 @@ int search_command(char *args[], char **env)
  * @args: inputs arguments.
  * @env: inputs env.
  * @argv: inputs argv.
+ * @line: inputs line ptr.
  *
  * Return: 0 on success, -1 on failure.
 */
 
-void excute(char *args[], char **env, char **argv)
+void excute(char *args[], char **env, char **argv, int *line)
 {
 	pid_t child;
 	int status, temp, flag = 0;
@@ -57,7 +58,7 @@ void excute(char *args[], char **env, char **argv)
 	}
 	if (temp != 0)
 	{
-		printf("%s: No such file or directory\n", argv[0]);
+		printf("%s: %i: fsd: not found\n", argv[0], *line);
 		return;
 	}
 	else
@@ -103,15 +104,17 @@ void parser(char *args[], char *buf)
  * interface - interface for the shell.
  *
  * @buf: inputs buffer.
+ * @line: inputs line ptr.
  *
  * Return: returns characters read on success, -1 of fail or eof.
 */
 
-ssize_t interface(char **buf)
+ssize_t interface(char **buf, int *line)
 {
 	ssize_t temp = 0;
 	size_t n = 0;
 
+	(*line)++;
 	if (isatty(STDIN_FILENO))
 		write(1, "$ ", 2);
 
@@ -141,10 +144,11 @@ int main(int argc, char **argv, char **env)
 	char *buf = NULL;
 	char *args[MAX_ARG];
 	int temp;
+	int line = 0;
 
 	while (1)
 	{
-		temp = interface(&buf);
+		temp = interface(&buf, &line);
 
 		if (temp == -1)
 		{
@@ -159,7 +163,7 @@ int main(int argc, char **argv, char **env)
 		}
 		parser(args, buf);
 
-		excute(args, env, argv);
+		excute(args, env, argv, &line);
 
 		free(buf);
 	}
