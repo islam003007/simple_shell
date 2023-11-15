@@ -1,5 +1,14 @@
 #include "main.h"
 
+/**
+ * search_command - searches for command.
+ *
+ * @args: inputs args.
+ * @env: inputs env.
+ *
+ * Retur: 0 if found, -1 if not found
+*/
+
 int search_command(char *args[], char **env)
 {
 	char *temp = NULL, *token = NULL, *path = _getenv("PATH", env);
@@ -13,14 +22,14 @@ int search_command(char *args[], char **env)
 		token = strtok(NULL, ":");
 		if (token == NULL)
 		{
-			free(path);
+			 /*free(bath)*/
 			return (-1);
 		}
 		temp = str_concat(token, args[0]);
 	}
 
 	args[0] = temp;
-	free(path);
+	/*free(bath)*/
 	return (0);
 }
 
@@ -56,7 +65,7 @@ void excute(char *args[], char **env, char **argv)
 		if (child != 0)
 		{
 			wait(&status);
-			free(args[0]);
+			/*free(args[0])*/
 			return;
 		}
 		execve(args[0], args, env);
