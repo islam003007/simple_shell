@@ -6,7 +6,7 @@
  * @args: inputs args.
  * @env: inputs env.
  *
- * Retur: 0 if found, -1 if not found
+ * Return: 0 if found, -1 if not found
 */
 
 int search_command(char *args[], char **env)
