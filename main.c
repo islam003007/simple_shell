@@ -14,14 +14,14 @@ int search_command(char *args[], char **env)
 		if (token == NULL)
 		{
 			free(path);
-			return (0);
+			return (-1);
 		}
 		temp = str_concat(token, args[0]);
 	}
 
 	args[0] = temp;
 	free(path);
-	return (1);
+	return (0);
 }
 
 /**
@@ -34,25 +34,33 @@ int search_command(char *args[], char **env)
  * Return: 0 on success, -1 on failure.
 */
 
-int excute(char *args[], char **env, char **argv)
+void excute(char *args[], char **env, char **argv)
 {
 	pid_t child;
-	int status;
+	int status, temp;
 	struct stat st;
 
-	child = fork();
-	if (child != 0)
-		wait(&status);
+	temp = stat(args[0], &st);
+	if (temp != 0)
+	{
+		temp = search_command(args, env);
+	}
+	if (temp != 0)
+	{
+		printf("%s: No such file or directory\n", argv[0]);
+		return;
+	}
 	else
 	{
-		if (stat(args[0], &st) == 0)
-			execve(args[0], args, env);
-		else
-			printf("%s: No such file or directory\n", argv[0]);
-		return (-1);
+		child = fork();
+		if (child != 0)
+		{
+			wait(&status);
+			free(args[0]);
+			return;
+		}
+		execve(args[0], args, env);
 	}
-
-	return (0);
 }
 
 
