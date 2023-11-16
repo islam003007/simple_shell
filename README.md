@@ -1,1 +1,1 @@
-# this is simple-shell
+# simple-shell
