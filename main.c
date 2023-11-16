@@ -71,7 +71,7 @@ void excute(char *args[], char **env, char **argv, int *line, int *exit_st)
 			wait(&status);
 			if (flag)
 				free(args[0]);
-			*exit_st = 0;
+			*exit_st = status >> 8;
 			return;
 		}
 		execve(args[0], args, env);
