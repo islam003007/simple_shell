@@ -40,11 +40,12 @@ int search_command(char *args[], char **env)
  * @env: inputs env.
  * @argv: inputs argv.
  * @line: inputs line ptr.
+ * @exit_st: exit status.
  *
  * Return: 0 on success, -1 on failure.
 */
 
-void excute(char *args[], char **env, char **argv, int *line)
+void excute(char *args[], char **env, char **argv, int *line, int *exit_st)
 {
 	pid_t child;
 	int status, temp, flag = 0;
@@ -59,6 +60,7 @@ void excute(char *args[], char **env, char **argv, int *line)
 	if (temp != 0)
 	{
 		fprintf(stderr, "%s: %i: %s: not found\n", argv[0], *line, args[0]);
+		*exit_st = 127;
 		return;
 	}
 	else
@@ -69,6 +71,7 @@ void excute(char *args[], char **env, char **argv, int *line)
 			wait(&status);
 			if (flag)
 				free(args[0]);
+			*exit_st = 0;
 			return;
 		}
 		execve(args[0], args, env);
@@ -140,12 +143,11 @@ int main(int argc, char **argv, char **env)
 	char *buf = NULL;
 	char *args[MAX_ARG];
 	int temp;
-	int line = 0;
+	int line = 0, exit_st = 0;
 
 	while (1)
 	{
 		temp = interface(&buf, &line);
-
 		if (temp == -1)
 		{
 			free(buf);
@@ -166,11 +168,11 @@ int main(int argc, char **argv, char **env)
 			continue;
 		}
 
-		excute(args, env, argv, &line);
+		excute(args, env, argv, &line, &exit_st);
 
 		free(buf);
 	}
 
 	(void)argc;
-	return (0);
+	return (exit_st);
 }
