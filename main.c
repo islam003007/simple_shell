@@ -149,13 +149,14 @@ int main(int argc, char **argv, char **env)
 			free(buf);
 			break;
 		}
-		if (temp == -2)
-		{
-			print_env(env);
-			free(buf);
-			continue;
-		}
+
 		parser(args, buf);
+
+		if (_strncmp(args[0], "exit", 5) == 0)
+		{
+			free(buf);
+			break;
+		}
 
 		excute(args, env, argv, &line);
 
