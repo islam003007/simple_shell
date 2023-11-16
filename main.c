@@ -58,7 +58,7 @@ void excute(char *args[], char **env, char **argv, int *line)
 	}
 	if (temp != 0)
 	{
-		printf("%s: %i: fsd: not found\n", argv[0], *line);
+		printf("%s: %i: %s: not found\n", argv[0], *line, args[0]);
 		return;
 	}
 	else
