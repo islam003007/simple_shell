@@ -157,6 +157,11 @@ int main(int argc, char **argv, char **env)
 			free(buf);
 			break;
 		}
+		if (_strncmp(args[0], "env", 4) == 0)
+		{
+			free(buf);
+			break;
+		}
 
 		excute(args, env, argv, &line);
 
