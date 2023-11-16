@@ -51,12 +51,14 @@ void excute(char *args[], char **env, char **argv, int *line, int *exit_st)
 	int status, temp, flag = 0;
 	struct stat st;
 
-	temp = stat(args[0], &st);
-	if (temp != 0)
+
+	if (args[0][0] != '/' && args[0][0] != '.')
 	{
 		temp = search_command(args, env);
 		flag = 1;
 	}
+	else
+		temp = stat(args[0], &st);
 	if (temp != 0)
 	{
 		fprintf(stderr, "%s: %i: %s: not found\n", argv[0], *line, args[0]);
