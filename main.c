@@ -120,12 +120,6 @@ ssize_t interface(char **buf, int *line)
 
 	temp = getline(buf, &n, stdin);
 
-	if (_strncmp(*buf, "exit", 4) == 0)
-		return (-1);
-
-	if (_strncmp(*buf, "env", 3) == 0)
-		return (-2);
-
 	return (temp);
 }
 

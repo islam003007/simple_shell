@@ -62,7 +62,7 @@ int _strncmp(char *s1, char *s2, int n)
 	int result = 0;
 	int i = 0;
 
-	while (s1[i] && i < n)
+	while (s1[i] && s2[i] && i < n)
 	{
 		result = s1[i] - s2[i];
 		if (s1[i] != s2[i])
