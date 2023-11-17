@@ -97,7 +97,7 @@ void parser(char *args[], char *buf)
 	token = strtok(buf, " \t\n");
 	if (token == NULL)
 		args[i++] = "";
-	while (token != NULL && i < MAX_ARG - 1)
+	while (token != NULL && i < MAX_ARG - 1 && token[0] != '#')
 	{
 		args[i] = token;
 		i++;
