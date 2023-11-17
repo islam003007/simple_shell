@@ -23,7 +23,8 @@ ssize_t interface(char **buf, int *line);
 void parser(char *args[], char *buf);
 char *_strcat(char *dest, char *src);
 void excute(char *args[], char **env, char **argv, int *line, int *exit_st);
-
+int exit_sh(char *args[], int *exit_st, char *argv[], int line);
+int _atoi(char *s);
 
 
 

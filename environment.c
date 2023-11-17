@@ -67,3 +67,38 @@ char *_getenv(char *name, char **env)
 
 	return (new_env);
 }
+
+/**
+ * exit_sh - exits shell.
+ *
+ * @args: inputs args.
+ * @exit_st: inputs pointer to exit status.
+ * @argv: inputs argv.
+ * @line: inputs line.
+ *
+ * Return: -1 if it fails.
+*/
+
+
+int exit_sh(char *args[], int *exit_st, char *argv[], int line)
+{
+	int i = 0;
+	char *error_message = "%s: %i: exit: Illegal number: %s\n";
+
+	if (args[1] == NULL)
+		return (0);
+
+	while (args[1][i])
+	{
+		if (args[1][i] < '0' || args[1][i] > '9')
+		{
+			fprintf(stderr, error_message, argv[0], line, args[1]);
+			(*exit_st) = 2;
+			return (-1);
+		}
+		i++;
+	}
+
+	*exit_st = _atoi(args[1]);
+	return (0);
+}

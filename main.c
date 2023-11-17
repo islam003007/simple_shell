@@ -160,8 +160,16 @@ int main(int argc, char **argv, char **env)
 
 		if (_strncmp(args[0], "exit", 5) == 0)
 		{
-			free(buf);
-			break;
+			if (exit_sh(args, &exit_st, argv, line) == -1 || !args[0][0])
+			{
+				free(buf);
+				continue;
+			}
+			else
+			{
+				free(buf);
+				break;
+			}
 		}
 		if (_strncmp(args[0], "env", 4) == 0)
 		{

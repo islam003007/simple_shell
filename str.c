@@ -73,46 +73,30 @@ int _strncmp(char *s1, char *s2, int n)
 }
 
 /**
- * _realloc - realloc.
+ * _atoi - converts a string to an integer
  *
- * @ptr: pointer to perviously allocated memory.
- * @old_size: size of perviously allocated memory.
- * @new_size: new size to reallocate.
+ * @s: inputs a string
  *
- * Return: void pointer the reallocated memory.
+ * Return: an integer
 */
 
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+int _atoi(char *s)
 {
-	void *new_ptr;
-	unsigned int i;
+	int i = 0;
+	int sign = 1;
+	unsigned int num = 0;
 
-	if (new_size == old_size)
-		return (ptr);
-
-	if (new_size == 0 && ptr != NULL)
+	while (s[i])
 	{
-		free(ptr);
-		return (NULL);
+		if (s[i] == '-')
+			sign *= -1;
+		else if (s[i] <= '9' && s[i] >= '0')
+			num = num * 10 + (s[i] - '0');
+		else if (num != 0)
+			break;
+		i++;
 	}
-
-	new_ptr = malloc(sizeof(char) * new_size);
-
-	if (ptr == NULL)
-		return (new_ptr);
-
-	if (new_ptr == NULL)
-		return (NULL);
-
-	if (old_size < new_size)
-		new_size = old_size;
-
-	for (i = 0; i < new_size; i++)
-		*((char *)new_ptr + i) = *((char *)ptr + i);
-
-	free(ptr);
-
-	return (new_ptr);
+	return (num * sign);
 }
 
 /**
