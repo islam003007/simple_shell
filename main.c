@@ -155,9 +155,7 @@ int main(int argc, char **argv, char **env)
 			free(buf);
 			break;
 		}
-
 		parser(args, buf);
-
 		if (_strncmp(args[0], "exit", 5) == 0)
 		{
 			if (exit_sh(args, &exit_st, argv, line) == -1 || !args[0][0])
@@ -179,7 +177,6 @@ int main(int argc, char **argv, char **env)
 		}
 
 		excute(args, env, argv, &line, &exit_st);
-
 		free(buf);
 	}
 
