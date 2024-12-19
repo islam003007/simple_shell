@@ -1,5 +1,1 @@
-# NOOO this is not a simple-shell O_o
-
-## this is what double hashes do!
-
-### can i do triple??
+my own shell in Linux operating System using C.
